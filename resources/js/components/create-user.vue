@@ -6,11 +6,8 @@
           <div class="card">
             <div class="card-header">Create User</div>
             <div class="card-body">
-              <form method="POST" action="http://localhost/login">
-                <input type="hidden" 
-                    name="_token"   
-                    :_token ="csrf"                
-                />
+              <form method="POST" action="/users" enctype="multipart/form-data">
+                <input type="hidden" name="_token" :value="csrf" />
                 <div class="row mb-3">
                   <label
                     for="first_name"
@@ -56,7 +53,9 @@
                       name="image"
                       required
                       style="margin-left: 10%"
+                      @change="handleImageChange"
                     />
+                    <img :src="thumbnail" v-if="thumbnail" width="100" />
                   </div>
                 </div>
                 <div class="row mb-0">
@@ -74,28 +73,35 @@
     </div>
   </div>
 </template>
-
-<script>
-import { ref, watch, reactive } from "vue";
+  
+  <script>
+import { ref, watch } from "vue";
 
 export default {
   setup() {
     const thumbnail = ref(null);
-    const imageInput = ref(null);
-    const csrf =  document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    const csrf = document
+      .querySelector('meta[name="csrf-token"]')
+      .getAttribute("content");
 
-    watch(imageInput, () => {
-      const file = imageInput.value.files[0];
-      if (!file.type.match("image.*")) {
-        alert("Please select a valid image file.");
+    const handleImageChange = (event) => {
+       const file = event.target.files[0];
+        console.log(file);
+        if (!file.type.match("image.*")) {
+        alert("Please select a valid image file.");        
         return;
+        }
+      if (file) {
+        thumbnail.value = URL.createObjectURL(file);
+      } else {
+        thumbnail.value = null;
       }
-      thumbnail.value = URL.createObjectURL(file);
-    });
+    };
 
     return {
       thumbnail,
-      csrf
+      csrf,
+      handleImageChange,
     };
   },
 };

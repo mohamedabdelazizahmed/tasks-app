@@ -23,5 +23,5 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
-Route::resource('users', 'CreateUserController')->only(['create', 'store']);
+Route::resource('users', UserController::class)->only(['create', 'store']);
 Route::resource('/tasks', TaskController::class);
