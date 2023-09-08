@@ -23,8 +23,8 @@
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
                 </a>
-                <a class="navbar-brand" href="{{ url('/tasks') }}">
-                    Tasks
+                <a class="navbar-brand" href="{{ url('/categories') }}">
+                    Categories
                 </a>
 
                 <a class="navbar-brand" href="{{ url('/users/create') }}">
